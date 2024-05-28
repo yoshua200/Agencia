@@ -1,13 +1,8 @@
-package com.mx.agenciamotos.Model;
+package com.mx.agenciamotos.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
-
-
-import javax.persistence.ManyToOne;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table (name = "MOTOS")
@@ -15,9 +10,9 @@ import java.util.List;
 public class motosDeportivas {
 
     @Id
-    @Column(name="ID_MOTO")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+   // @Column(name="ID_MOTO")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private int id;
 
     @Column(name="N_SERIE")
     private String nSerie;
@@ -43,16 +38,8 @@ public class motosDeportivas {
     @Column (name="PRECIO")
     private int precio;
 
-   //@ManyToOne
-  //  @JoinColumn(name="FK_IDAGENCIA")
-    //private detallesAgencias agencia;
-
-
-
-   //cada moto puede tener una agencia
-   /*@JsonIgnore
-   @ManyToMany(mappedBy = "motos")
-   private List<detallesAgencias> agencias = new ArrayList<>();*/
-
+    @JoinColumn(name = "FK_IDAGENCIA", referencedColumnName = "ID_AGENCIA")
+    @ManyToOne(optional = false)
+    private detallesAgencias fkDetalles;
 
 }

@@ -1,6 +1,6 @@
 package com.mx.agenciamotos.service;
 
-import com.mx.agenciamotos.Model.detallesAgencias;
+import com.mx.agenciamotos.model.detallesAgencias;
 import com.mx.agenciamotos.repository.IdetallesAgenciaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,7 @@ public class IdetallesAgenciaServiceImp implements IdetallesAgenciaService{
 
     @Override
     public List<detallesAgencias> list() {
-        return (List<detallesAgencias>)dao.findAll();
+        return dao.findAll();
     }
-  /*  public List<detallesAgencias> getMotosConAgencias(){
-        return dao.getMotosConAgencias();
-    } */
+
 }

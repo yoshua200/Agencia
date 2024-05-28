@@ -1,6 +1,6 @@
 package com.mx.agenciamotos.controller;
 
-import com.mx.agenciamotos.Model.detallesAgencias;
+import com.mx.agenciamotos.model.detallesAgencias;
 import com.mx.agenciamotos.service.IdetallesAgenciaServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +26,4 @@ public class detallesAgenciasWS {
 
 
     }
-  /*  @GetMapping("/todo")
-    public ResponseEntity<?> todo(){
-        List<detallesAgencias> ag = imp.getMotosConAgencias();
-        return ResponseEntity.status(HttpStatus.OK).body(ag);
-    }*/
 }

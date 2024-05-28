@@ -1,9 +1,13 @@
 package com.mx.agenciamotos.service;
 
-import com.mx.agenciamotos.Model.motosDeportivas;
+import com.mx.agenciamotos.model.motosDeportivas;
 import com.mx.agenciamotos.repository.ImotosDeportivasDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 @Service
@@ -37,7 +41,11 @@ public class motosDeportivasServiceImp implements ImotosDeportivasService {
         return dao.findAll();
     }
 
-    public List<motosDeportivas> buscarPrecio(int precio){
+    public Page<motosDeportivas> paginacion( String marca, Pageable pageable){
+        return dao.findAllMotosbyMarca(marca.toUpperCase(), pageable);
+    }
+
+ public List<motosDeportivas> buscarPrecio(int precio){
         return dao.findByPrecio(precio);
     }
     public List<motosDeportivas> buscarMarca(String marca){

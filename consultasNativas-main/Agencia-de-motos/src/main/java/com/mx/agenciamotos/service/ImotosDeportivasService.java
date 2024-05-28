@@ -1,6 +1,7 @@
 package com.mx.agenciamotos.service;
 
-import com.mx.agenciamotos.Model.motosDeportivas;
+import com.mx.agenciamotos.model.motosDeportivas;
+
 
 import java.util.List;
 
@@ -11,4 +12,5 @@ public interface ImotosDeportivasService {
     public void delete (motosDeportivas dep);
     public motosDeportivas search(motosDeportivas dep);
     public List<motosDeportivas> list();
+
 }

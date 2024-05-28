@@ -1,13 +1,20 @@
 package com.mx.agenciamotos.controller;
 
-import com.mx.agenciamotos.Model.motosDeportivas;
+import com.mx.agenciamotos.model.motosDeportivas;
 import com.mx.agenciamotos.service.motosDeportivasServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping(path = "/api/Deportivas")
@@ -16,17 +23,62 @@ public class motosDeportivasWebService {
 
     @Autowired
      public motosDeportivasServiceImp ser;
-    //private IagenciaDeportivasDao dao;
+
 
     @GetMapping("/list") // http://localhost:8090/api/Deportivas/list
     public ResponseEntity<?> list() {
         List<motosDeportivas> motos = ser.list();
         if (motos.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No se encontraros resultados");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No se encontraron resultados");
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(motos);
         }
     }
+
+    @GetMapping("/listPag")
+    public ResponseEntity<Object> paginado(
+            @RequestParam ("marca") String marca,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "3")int size,
+            @RequestParam(defaultValue = "nSerie") String SortBy,
+            @RequestParam(defaultValue = "ASC")String direccion){
+        try{
+            Sort sort = Sort.by(Sort.Direction.fromString(direccion), SortBy);
+            Pageable pageable = PageRequest.of(page, size, sort);
+            Page<motosDeportivas> pag = ser.paginacion(marca, pageable);
+            Map<String,Object> json = new HashMap<>();
+
+            if(pag.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No hay resultados");
+            }else {
+                json.put("data",pag);
+                json.put("status", HttpStatus.OK);
+             //   return ResponseEntity.status(HttpStatus.OK).body(pag);
+                return new ResponseEntity<>(json,HttpStatus.OK);
+            }
+        }catch(IllegalArgumentException e){
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Argumento no válido: " + e.getMessage());
+            response.put("status", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            throw e;
+        }
+
+
+/*
+        Sort sort = Sort.by(Sort.Direction.fromString(direccion), SortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<motosDeportivas> pag = ser.paginacion(marca, pageable);
+
+        if(pag.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No hay resultados");
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(pag);
+        }
+        */
+
+        }
 
     @PostMapping("/search") //http://localhost:8090/api/Deportivas/search
     public ResponseEntity<?> search(@RequestBody motosDeportivas dep) {
