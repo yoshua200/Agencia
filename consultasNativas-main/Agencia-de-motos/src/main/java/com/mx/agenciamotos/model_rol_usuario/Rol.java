@@ -12,7 +12,6 @@ import java.util.List;
 public class Rol {
 
     //Atributos
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
@@ -24,4 +23,5 @@ public class Rol {
     @JsonIgnoreProperties({"roles","handler","hibernateLazyInitializer"})
     @ManyToMany(mappedBy = "roles")
     private List<Usuario> usuarios;
+
 }
